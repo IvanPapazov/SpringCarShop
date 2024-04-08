@@ -11,7 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
-@RestController
+@Controller
 public class UserController {
     @Autowired
     private UserService userService;
@@ -23,6 +23,7 @@ public class UserController {
     }
 
     @GetMapping("/register")
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String showRegistrationForm(Model model){
         // create model object to store form data
         UserDto user = new UserDto();

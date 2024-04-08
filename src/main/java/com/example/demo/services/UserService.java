@@ -16,7 +16,6 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Synchronized
     public void saveUser(UserDto userDto) {
         User user = new User();
         user.setFull_name(userDto.getFull_name());
