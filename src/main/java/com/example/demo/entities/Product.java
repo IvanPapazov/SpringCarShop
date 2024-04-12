@@ -1,5 +1,6 @@
 package com.example.demo.entities;
 
+import com.example.demo.entities.enums.Product_GamingPlatform;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -11,27 +12,16 @@ public class Product {
     @Column(nullable = false)
     private long Id;
     @Column(nullable = false)
-    private String brand;
+    private String name;
     @Column(nullable = false)
-    private String model;
+    private Product_GamingPlatform gamingPlatform;
     @Column(nullable = false)
-    private int year;
+    private int quantity;
     @Column(nullable = false)
     private String description;
     @Column(nullable = false)
     private Double price;
-    private List<String> images;
-
-    public Product(String brand, String model, int year, String description, Double price) {
-        this.brand = brand;
-        this.model = model;
-        this.year = year;
-        this.description = description;
-        this.price = price;
-    }
-
-    public Product() {
-    }
+    private String images;
 
     public long getId() {
         return Id;
@@ -41,28 +31,28 @@ public class Product {
         Id = id;
     }
 
-    public String getBrand() {
-        return brand;
+    public String getName() {
+        return name;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getModel() {
-        return model;
+    public Product_GamingPlatform getGamingPlatform() {
+        return gamingPlatform;
     }
 
-    public void setModel(String model) {
-        this.model = model;
+    public void setGamingPlatform(Product_GamingPlatform gamingPlatform) {
+        this.gamingPlatform = gamingPlatform;
     }
 
-    public int getYear() {
-        return year;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public String getDescription() {
@@ -81,12 +71,11 @@ public class Product {
         this.price = price;
     }
 
-    public List<String> getImages() {
+    public String getImages() {
         return images;
     }
 
-    public void setImages(List<String> images) {
+    public void setImages(String images) {
         this.images = images;
     }
-
 }

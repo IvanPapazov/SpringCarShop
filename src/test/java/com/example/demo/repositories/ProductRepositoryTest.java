@@ -13,7 +13,7 @@ public class ProductRepositoryTest {
     @Test
     void saveMethod()
     {
-        Product product=new Product("Audi","RS7",2023,"The best",200000.00);
+        Product product=new Product();
         productsRepository.save(product);
     }
 

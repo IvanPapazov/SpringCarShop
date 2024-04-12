@@ -1,14 +1,18 @@
 package com.example.demo.services;
 
-import com.example.demo.Dto.UserDto;
+import com.example.demo.dto.UserDto;
 import com.example.demo.entities.User;
 import com.example.demo.entities.enums.User_Privilege;
 import com.example.demo.entities.enums.User_Type;
 import com.example.demo.repositories.UserRepository;
-import lombok.Synchronized;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 public class UserService {
@@ -32,6 +36,38 @@ public class UserService {
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public List<UserDto> findAllUsers() {
+        List<UserDto> dtoUsers=new ArrayList<UserDto>();
+        List<User> users=userRepository.findAll();
+        for (User user : users) {
+            UserDto dto=new UserDto();
+            dto.setId(user.getId());
+            dto.setEmail(user.getEmail());
+            dto.setAddress(user.getAddress());
+            dto.setPassword(user.getPassword());
+            dto.setUserRole(user.getUser_role());
+            dto.setUsername(user.getUsername());
+            dto.setPrivilege(user.getPrivilege());
+            dto.setFull_name(user.getFull_name());
+            dto.setPhone_number(user.getPhone_number());
+            dtoUsers.add(dto);
+        }
+        return dtoUsers;
+    }
+    public Boolean isAccountExist(String email,String pass) {
+        List<User> users=userRepository.findAll();
+        for (User user : users) {
+            if(user.getEmail().equals(email) && user.getPassword().equals(pass))
+                return true;
+        }
+        return false;
+    }
+
+    public void deleteUser(UserDto userDto)
+    {
+        userRepository.delete(findByEmail(userDto.getEmail()));
     }
 
 }

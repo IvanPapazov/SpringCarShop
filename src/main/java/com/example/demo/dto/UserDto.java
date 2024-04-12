@@ -1,11 +1,8 @@
-package com.example.demo.Dto;
+package com.example.demo.dto;
 
 
 import com.example.demo.entities.enums.User_Privilege;
 import com.example.demo.entities.enums.User_Type;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
@@ -30,6 +27,26 @@ public class UserDto
     private String phone_number;
     @NotEmpty
     private String address;
+
+    private User_Privilege privilege;
+
+        private User_Type userRole;
+
+    public User_Privilege getPrivilege() {
+        return privilege;
+    }
+
+    public void setPrivilege(User_Privilege privilege) {
+        this.privilege = privilege;
+    }
+
+    public User_Type getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(User_Type userRole) {
+        this.userRole = userRole;
+    }
 
     public Long getId() {
         return id;
