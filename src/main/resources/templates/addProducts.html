@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Online game shop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        #drop-zone {
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            margin: 20px auto;
+            width: 300px;
+            cursor: pointer;
+        }
+        #drop-zone p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+    <div class="container-fluid">
+        <h5><a class="navbar-brand text-white" >Online game shop</a></h5>
+    </div>
+    <div class="collapse navbar-collapse ms-auto" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-auto">
+            <li class="nav-item " >
+                <h5><a class="nav-link active" aria-current="page" th:href="@{/frontPage}">Shop</a></h5>
+            </li>
+        </ul>
+    </div>
+</nav>
+<br /><br />
+<div class="container">
+    <div class="row col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-center">Add game</h2>
+            </div>
+            <div th:if="${param.success}" class="alert alert-info">
+                    You have successfully added a game!
+            </div>
+            <div th:if="${param.error}" class="alert alert-danger">
+                There is already such a game!
+            </div>
+            <div class="card-body">
+                <form
+                        method="post"
+                        role="form"
+                        th:action="@{/addProducts/save}"
+                        th:object="${product}"
+                        enctype="multipart/form-data"
+                >
+                    <div class="form-group mb-3">
+                        <label class="form-label">Name</label>
+                        <input
+                                class="form-control"
+                                id="name"
+                                name="name"
+                                placeholder="Enter name"
+                                type="text"
+                        />
+                        <p th:errors = "*{name}" class="text-danger"
+                           th:if="${#fields.hasErrors('name')}"></p>
+                    </div>
+
+
+                    <div class="form-group mb-3">
+                        <label class="form-label">Choose gaming platform:</label>
+                        </br>
+                        <select name="gamingPlatform" id="gamingPlatform">
+                            <option value="PC">PC</option>
+                            <option value="PS">PS</option>
+                            <option value="xBox">xBox</option>
+                            <option value="Nintendo">Nintendo</option>
+                        </select>
+                        <p th:errors = "*{gamingPlatform}" class="text-danger"
+                           th:if="${#fields.hasErrors('gamingPlatform')}"></p>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label">Description</label>
+                        <input
+                                class="form-control"
+                                id="description"
+                                name="description"
+                                placeholder="Enter description"
+                                type="text"
+                        />
+                        <p th:errors = "*{description}" class="text-danger"
+                           th:if="${#fields.hasErrors('description')}"></p>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label">Price</label>
+                        <input
+                                class="form-control"
+                                id="price"
+                                name="price"
+                                placeholder="Enter price"
+                                type="number"
+                                step="0.01"
+                                required
+                        />
+                        <p th:errors = "*{price}" class="text-danger"
+                           th:if="${#fields.hasErrors('price')}"></p>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label">Quantity</label>
+                        <input
+                                class="form-control"
+                                id="quantity"
+                                name="quantity"
+                                placeholder="Enter quantity"
+                                type="number"
+                                required
+                        />
+                        <p th:errors = "*{quantity}" class="text-danger"
+                           th:if="${#fields.hasErrors('quantity')}"></p>
+                    </div>
+
+                    <p>Drag and Drop Image Upload</p>
+                    <div id="drop-zone" onclick="document.getElementById('image').click()">
+                        <p>Drag & drop images here or click to select images</p>
+                        <input
+                                type="file"
+                                id="image"
+                                style="display: none;"
+                                accept="image/*"
+                                name="image"
+                                onchange="handleFiles(this.files)">
+                    </div>
+
+                    <br/>
+                    <div class="form-group">
+                        <button class="btn btn-primary "ms-auto type="submit">Add game</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
