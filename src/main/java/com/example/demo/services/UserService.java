@@ -65,9 +65,9 @@ public class UserService {
         return false;
     }
 
-    public void deleteUser(UserDto userDto)
+    public void deleteUser(String email)
     {
-        userRepository.delete(findByEmail(userDto.getEmail()));
+        userRepository.deleteById(findByEmail(email).getId());
     }
 
 }

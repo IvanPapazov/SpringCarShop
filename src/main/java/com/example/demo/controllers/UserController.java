@@ -66,12 +66,12 @@ public class UserController {
     }
 
 
-    @GetMapping("/users/delate")
-    public String usersDelate(@Valid @ModelAttribute("user") UserDto userDto, Model model){
+    @PostMapping("/users/delete")
+    public String usersDelete(@Valid @ModelAttribute("email") String email, Model model){
 
-        userService.deleteUser(userDto);
+        userService.deleteUser(email);
+        return "redirect:/users?delete";
 
-        return "redirect:/users?delate";
     }
 
 }

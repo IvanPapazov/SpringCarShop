@@ -6,7 +6,6 @@ import com.example.demo.entities.Product;
 import com.example.demo.entities.User;
 import com.example.demo.services.ProductService;
 import com.example.demo.services.UserService;
-import jakarta.validation.Path;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,14 +19,18 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.Path;
+import java.util.Base64;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class ProductController {
     @Autowired
     private ProductService productService;
 
-    public static String UPLOAD_DIRECTORY = ProductController.class.getResource("/static/images/").getFile();
+    private static String filePath="src/main/resources/static/images/";
+    //public static String UPLOAD_DIRECTORY = ProductController.class.getResource("/static/images/").getFile();
 
     @GetMapping("/frontPage")
     public String frontPage(Model model){
@@ -48,13 +51,11 @@ public class ProductController {
                              @RequestPart("image") MultipartFile file) throws IOException {
         Product existingProduct = productService.findByName(productDto.getName());
 
-        // Save the file to the server
         String fileName = file.getOriginalFilename();
-
-        file.transferTo(new File(UPLOAD_DIRECTORY + fileName));// ToDo...
-
+        byte[] fileBytes = file.getBytes();
+        Path path = Paths.get(filePath, fileName);
+        Files.write( path, fileBytes);
         productDto.setImages(fileName);
-
         if(existingProduct !=null) {
             return "redirect:/addProducts?error";
         }
@@ -62,5 +63,17 @@ public class ProductController {
         productService.addProduct(productDto);
         return "redirect:/addProducts?success";
     }
+
+    @PostMapping("/addProducts/view")
+    public String view(@RequestParam("productName") String productName, Model model)  {
+        Product product = productService.findByName(productName);
+        model.addAttribute("game", product);
+
+        List<ProductDto> products = productService.getAllProducts().stream().limit(4).collect(Collectors.toList());
+        model.addAttribute("products", products);
+
+        return "viewProduct";
+    }
+
 
 }
