@@ -74,4 +74,20 @@ public class UserController {
 
     }
 
+    @PostMapping("/users/edit")
+    public String usersEdit(@Valid @ModelAttribute("email") String email, Model model){
+        //userService.editUser(user);
+        User user=userService.findByEmail(email);
+        model.addAttribute("user", user);
+        return "edit";
+
+    }
+
+    @PostMapping("/users/save")
+    public String usersEditSave(@Valid @ModelAttribute("user") UserDto userDto,Model model){
+        User existingUser = userService.findByEmail(userDto.getEmail());
+
+        userService.editUser(userDto);
+        return "redirect:/users";
+    }
 }

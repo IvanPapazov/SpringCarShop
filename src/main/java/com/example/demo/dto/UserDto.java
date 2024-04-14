@@ -27,10 +27,8 @@ public class UserDto
     private String phone_number;
     @NotEmpty
     private String address;
-
     private User_Privilege privilege;
-
-        private User_Type userRole;
+    private User_Type userRole;
 
     public User_Privilege getPrivilege() {
         return privilege;

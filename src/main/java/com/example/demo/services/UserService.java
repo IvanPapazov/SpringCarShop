@@ -70,4 +70,21 @@ public class UserService {
         userRepository.deleteById(findByEmail(email).getId());
     }
 
+
+    public void editUser(UserDto userDto ) {
+        /*userRepository.updateUser(user.getUsername(), user.getPassword(), user.getEmail(), user.getPhone_number(),
+                user.getAddress(), user.getPrivilege(),user.getUser_role(), user.getFull_name(), user.getId());*/
+        User user = userRepository.findByEmail(userDto.getEmail());
+        user.setFull_name(userDto.getFull_name());
+        user.setEmail(userDto.getEmail());
+        user.setAddress(userDto.getAddress());
+        user.setUsername(userDto.getUsername());
+        user.setPassword(userDto.getPassword());
+        user.setPhone_number(userDto.getPhone_number());
+        user.setUser_role(userDto.getUserRole());
+        user.setPrivilege(userDto.getPrivilege());
+        userRepository.save(user);
+
+    }
+
 }

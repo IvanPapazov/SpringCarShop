@@ -30,7 +30,6 @@ public class ProductController {
     private ProductService productService;
 
     private static String filePath="src/main/resources/static/images/";
-    //public static String UPLOAD_DIRECTORY = ProductController.class.getResource("/static/images/").getFile();
 
     @GetMapping("/frontPage")
     public String frontPage(Model model){
@@ -55,6 +54,7 @@ public class ProductController {
         byte[] fileBytes = file.getBytes();
         Path path = Paths.get(filePath, fileName);
         Files.write( path, fileBytes);
+
         productDto.setImages(fileName);
         if(existingProduct !=null) {
             return "redirect:/addProducts?error";

@@ -59,16 +59,15 @@
             <td th:text = "${user.privilege}"></td>
             <td th:text = "${user.userRole}"></td>
             <td>
+                <form th:action="@{/users/edit}" method="post">
+                    <input type="hidden" name="email" th:value="${user.email}" />
+                    <div class="text-center">
+                        <button class="btn btn-outline-dark" type="submit">Edit</button></div>
+                </form>
                 <form th:action="@{/users/delete}" method="post">
                     <input type="hidden" name="email" th:value="${user.email}" />
                     <div class="text-center">
                         <button class="btn btn-outline-dark" type="submit">Delete</button></div>
-                </form>
-
-                <form th:action="@{/users/delete}" method="post">
-                    <input type="hidden" name="email" th:value="${user.email}" />
-                    <div class="text-center">
-                        <button class="btn btn-outline-dark" type="submit">Edit</button></div>
                 </form>
             </td>
 

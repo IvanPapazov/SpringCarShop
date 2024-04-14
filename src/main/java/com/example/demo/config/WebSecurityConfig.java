@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,17 +13,25 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebMvc
+@ComponentScan("com.spring.boot.rocks.*")
 public class WebSecurityConfig implements WebMvcConfigurer {
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/**")
+                .addResourceLocations("classpath:/static/");
+    }
+     @Bean
+    SecurityFilterChain web(HttpSecurity http) throws Exception {
+        http.securityMatcher("/**")
+                .authorizeHttpRequests((authorize) -> authorize
+                        .requestMatchers("/users","/addProducts","/edit").hasAuthority("Admin")
+                        .requestMatchers("/**").permitAll()
+                        .requestMatchers("/images/**").permitAll()
+                        .anyRequest().authenticated()
+                );
+        // ...
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.securityMatcher("/**").authorizeHttpRequests(rmr -> rmr
-                .requestMatchers("/register").permitAll()
-                .requestMatchers("/images/**").permitAll()
-                .requestMatchers("/**").permitAll()
-        );
         return http.build();
     }
-
 
 }
