@@ -1,6 +1,5 @@
 package com.example.demo.controllers;
 
-import com.example.demo.dto.LogInDto;
 import com.example.demo.dto.UserDto;
 import com.example.demo.entities.User;
 import com.example.demo.services.UserService;
@@ -8,7 +7,6 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,19 +42,11 @@ public class UserController {
         return "redirect:/register?success";
     }
 
-    @GetMapping("/login")
+    @RequestMapping("/login")
     public String login(){
         return "login";
     }
 
-    @PostMapping("/login/user")
-    public String loginUser(@Valid @ModelAttribute("user") LogInDto userDto, Model model){
-
-        if(userDto==null||!userService.isAccountExist(userDto.getEmail(),userDto.getPassword())){
-            return "redirect:/login?error";
-        }
-        return "redirect:/frontPage";
-    }
 
     @GetMapping("/users")
     public String users(Model model){
@@ -85,8 +75,6 @@ public class UserController {
 
     @PostMapping("/users/save")
     public String usersEditSave(@Valid @ModelAttribute("user") UserDto userDto,Model model){
-        User existingUser = userService.findByEmail(userDto.getEmail());
-
         userService.editUser(userDto);
         return "redirect:/users";
     }

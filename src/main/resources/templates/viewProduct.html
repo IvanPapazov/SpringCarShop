@@ -45,7 +45,7 @@
 <section class="py-5">
     <div class="container px-4 px-lg-5 my-5">
         <div class="row gx-4 gx-lg-5 align-items-center">
-            <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" th:src="@{/images/game.images}" height="600" weight="700" alt="..." /></div>
+            <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" th:src="@{'/images/'+${game.images}}" height="600" weight="700" alt="..." /></div>
             <div class="col-md-6" >
                 <div class="small mb-1">SKU: BST-498</div>
                 <h1 class="display-5 fw-bolder" th:text="${game.name}"></h1>
@@ -54,11 +54,14 @@
                 </div>
                 <p class="lead" th:text="${game.description}"></p>
                 <div class="d-flex">
-                    <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
-                    <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                    <form th:action="@{/addProductInOrder}" method="post">
+                        <input type="hidden" name="productId" th:value="${game.id}" />
+                        <button class="btn btn-outline-dark flex-shrink-0" type="submit">
                         <i class="bi-cart-fill me-1"></i>
                         Add to cart
                     </button>
+                    </form>
+
                 </div>
             </div>
         </div>
@@ -71,7 +74,7 @@
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                 <div th:each="product : ${products}" class="col mb-5">
                     <div class="card h-100">
-                        <img class="card-img-top" th:src="@{/images/product.images}" height="200" weight="450" alt="..." />
+                        <img class="card-img-top" th:src="@{'/images/'+${product.images}}" height="200" weight="450" alt="..." />
                         <div class="card-body p-4">
                             <div class="text-center">
                                 <h5 class="fw-bolder" th:text="${product.name}"></h5>

@@ -1,6 +1,6 @@
 package com.example.demo.entities.enums;
 
-public enum User_Type {
+public enum UserType {
     Admin,
     User
 }

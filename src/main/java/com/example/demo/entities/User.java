@@ -1,7 +1,7 @@
 package com.example.demo.entities;
 
-import com.example.demo.entities.enums.User_Privilege;
-import com.example.demo.entities.enums.User_Type;
+import com.example.demo.entities.enums.UserPrivilege;
+import com.example.demo.entities.enums.UserType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,35 +12,28 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Table(name="users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private long Id;
-    @Column(nullable = false)
-    private String full_name;
-    @Column(nullable = false)
+    private String name;
     private String username;
-    @Column(nullable = false)
     private String password;
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private User_Type user_role;
-    @Column(nullable = false)
+    private UserType role;
     private String email;
-    @Column(nullable = false)
-    private String phone_number;
-    @Column(nullable = false)
+    private String phoneNumber;
     private String address;
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private User_Privilege privilege;
-    public User_Privilege getPrivilege() {
+    private UserPrivilege privilege;
+    public UserPrivilege getPrivilege() {
         return privilege;
     }
 
-    public void setPrivilege(User_Privilege privilege) {
+    public void setPrivilege(UserPrivilege privilege) {
         this.privilege = privilege;
     }
 
@@ -68,20 +61,20 @@ public class User {
         Id = id;
     }
 
-    public String getFull_name() {
-        return full_name;
+    public String getFullName() {
+        return name;
     }
 
-    public void setFull_name(String full_name) {
-        this.full_name = full_name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public User_Type getUser_role() {
-        return user_role;
+    public UserType getUserRole() {
+        return role;
     }
 
-    public void setUser_role(User_Type user_role) {
-        this.user_role = user_role;
+    public void setUserRole(UserType userRole) {
+        this.role = userRole;
     }
 
     public String getEmail() {
@@ -92,12 +85,12 @@ public class User {
         this.email = email;
     }
 
-    public String getPhone_number() {
-        return phone_number;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getAddress() {

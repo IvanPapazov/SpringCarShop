@@ -8,6 +8,8 @@ import com.example.demo.services.ProductService;
 import com.example.demo.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,8 +35,14 @@ public class ProductController {
 
     @GetMapping("/frontPage")
     public String frontPage(Model model){
+        //boolean isAdmin = auth != null && auth.getAuthorities().stream()
+        //        .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+        //model.addAttribute("isAdmin", isAdmin);
+
+
         List<ProductDto> products = productService.getAllProducts();
         model.addAttribute("products", products);
+        //model.addAttribute("user", auth);
         return "frontPage";
     }
 
@@ -69,11 +77,33 @@ public class ProductController {
         Product product = productService.findByName(productName);
         model.addAttribute("game", product);
 
-        List<ProductDto> products = productService.getAllProducts().stream().limit(4).collect(Collectors.toList());
+        List<ProductDto> products = productService.getAllProducts().stream().limit(3).collect(Collectors.toList());
         model.addAttribute("products", products);
 
         return "viewProduct";
     }
 
+    @GetMapping("/products")
+    public String products(Model model){
+        List<ProductDto> products = productService.findAllProducts();
+        model.addAttribute("products", products);
+        return "refillProduct";
+    }
+
+    @PostMapping("/product/refill")
+    public String refillProduct(@Valid @ModelAttribute("id") Long Id,@Valid @ModelAttribute("quantity") int quantity, Model model){
+        Product product = productService.findById(Id);
+        product.setQuantity(product.getQuantity()+quantity);
+        productService.refillProduct(product);
+        return "redirect:/products";
+
+    }
+
+    @PostMapping("/product/delete")
+    public String usersDelete(@Valid @ModelAttribute("id") Long Id, Model model){
+        productService.deleteProduct(Id,filePath);
+        return"redirect:/products";
+
+    }
 
 }

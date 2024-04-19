@@ -1,6 +1,6 @@
 package com.example.demo.entities.enums;
 
-public enum Order_Status {
+public enum OrderStatus {
     Ordered,
     Shipped,
     Delivered,

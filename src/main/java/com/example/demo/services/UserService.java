@@ -2,16 +2,19 @@ package com.example.demo.services;
 
 import com.example.demo.dto.UserDto;
 import com.example.demo.entities.User;
-import com.example.demo.entities.enums.User_Privilege;
-import com.example.demo.entities.enums.User_Type;
+import com.example.demo.entities.enums.UserPrivilege;
+import com.example.demo.entities.enums.UserType;
 import com.example.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -22,21 +25,32 @@ public class UserService {
 
     public void saveUser(UserDto userDto) {
         User user = new User();
-        user.setFull_name(userDto.getFull_name());
+        user.setName(userDto.getFullName());
+        user.setEmail(userDto.getEmail());
+        user.setAddress(userDto.getAddress());
+        user.setUsername(userDto.getUsername());
+        BCryptPasswordEncoder crypt = new BCryptPasswordEncoder();
+        user.setPassword(crypt.encode(userDto.getPassword()));
+        user.setPhoneNumber(userDto.getPhoneNumber());
+        user.setUserRole(UserType.User);
+        user.setPrivilege(UserPrivilege.None);
+        userRepository.save(user);
+    }
+
+    public void editUser(UserDto userDto ) {
+        User user = userRepository.findByEmail(userDto.getEmail());
+        user.setName(userDto.getFullName());
         user.setEmail(userDto.getEmail());
         user.setAddress(userDto.getAddress());
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
-        user.setPhone_number(userDto.getPhone_number());
-        user.setUser_role(User_Type.User);
-        user.setPrivilege(User_Privilege.None);
+        user.setPhoneNumber(userDto.getPhoneNumber());
+        user.setUserRole(userDto.getUserRole());
+        user.setPrivilege(userDto.getPrivilege());
         userRepository.save(user);
     }
 
 
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
 
     public List<UserDto> findAllUsers() {
         List<UserDto> dtoUsers=new ArrayList<UserDto>();
@@ -47,22 +61,14 @@ public class UserService {
             dto.setEmail(user.getEmail());
             dto.setAddress(user.getAddress());
             dto.setPassword(user.getPassword());
-            dto.setUserRole(user.getUser_role());
+            dto.setUserRole(user.getUserRole());
             dto.setUsername(user.getUsername());
             dto.setPrivilege(user.getPrivilege());
-            dto.setFull_name(user.getFull_name());
-            dto.setPhone_number(user.getPhone_number());
+            dto.setFullName(user.getFullName());
+            dto.setPhoneNumber(user.getPhoneNumber());
             dtoUsers.add(dto);
         }
         return dtoUsers;
-    }
-    public Boolean isAccountExist(String email,String pass) {
-        List<User> users=userRepository.findAll();
-        for (User user : users) {
-            if(user.getEmail().equals(email) && user.getPassword().equals(pass))
-                return true;
-        }
-        return false;
     }
 
     public void deleteUser(String email)
@@ -70,21 +76,10 @@ public class UserService {
         userRepository.deleteById(findByEmail(email).getId());
     }
 
-
-    public void editUser(UserDto userDto ) {
-        /*userRepository.updateUser(user.getUsername(), user.getPassword(), user.getEmail(), user.getPhone_number(),
-                user.getAddress(), user.getPrivilege(),user.getUser_role(), user.getFull_name(), user.getId());*/
-        User user = userRepository.findByEmail(userDto.getEmail());
-        user.setFull_name(userDto.getFull_name());
-        user.setEmail(userDto.getEmail());
-        user.setAddress(userDto.getAddress());
-        user.setUsername(userDto.getUsername());
-        user.setPassword(userDto.getPassword());
-        user.setPhone_number(userDto.getPhone_number());
-        user.setUser_role(userDto.getUserRole());
-        user.setPrivilege(userDto.getPrivilege());
-        userRepository.save(user);
-
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
+
+
 
 }

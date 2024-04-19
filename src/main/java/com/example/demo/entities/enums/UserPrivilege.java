@@ -1,6 +1,6 @@
 package com.example.demo.entities.enums;
 
-public enum User_Privilege {
+public enum UserPrivilege {
     None,
     Iron,
     Bronze,

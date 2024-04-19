@@ -1,9 +1,7 @@
 package com.example.demo.entities;
 
-import com.example.demo.entities.enums.Product_GamingPlatform;
+import com.example.demo.entities.enums.ProductGamingPlatform;
 import jakarta.persistence.*;
-
-import java.util.List;
 
 @Entity
 public class Product {
@@ -14,7 +12,7 @@ public class Product {
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
-    private Product_GamingPlatform gamingPlatform;
+    private ProductGamingPlatform gamingPlatform;
     @Column(nullable = false)
     private int quantity;
     @Column(nullable = false)
@@ -22,6 +20,9 @@ public class Product {
     @Column(nullable = false)
     private Double price;
     private String images;
+    @ManyToOne
+    @JoinColumn(name="order_id")
+    private Order order;
 
     public long getId() {
         return Id;
@@ -39,11 +40,11 @@ public class Product {
         this.name = name;
     }
 
-    public Product_GamingPlatform getGamingPlatform() {
+    public ProductGamingPlatform getGamingPlatform() {
         return gamingPlatform;
     }
 
-    public void setGamingPlatform(Product_GamingPlatform gamingPlatform) {
+    public void setGamingPlatform(ProductGamingPlatform gamingPlatform) {
         this.gamingPlatform = gamingPlatform;
     }
 
@@ -77,5 +78,13 @@ public class Product {
 
     public void setImages(String images) {
         this.images = images;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

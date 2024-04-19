@@ -1,10 +1,6 @@
 package com.example.demo.dto;
 
-import com.example.demo.entities.enums.Product_GamingPlatform;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.demo.entities.enums.ProductGamingPlatform;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +17,7 @@ public class ProductDto {
     @NotEmpty
     private String name;
 
-    private Product_GamingPlatform gamingPlatform;
+    private ProductGamingPlatform gamingPlatform;
 
     private int quantity;
     @NotEmpty
@@ -46,11 +42,11 @@ public class ProductDto {
         this.name = name;
     }
 
-    public Product_GamingPlatform getGamingPlatform() {
+    public ProductGamingPlatform getGamingPlatform() {
         return gamingPlatform;
     }
 
-    public void setGamingPlatform(Product_GamingPlatform gamingPlatform) {
+    public void setGamingPlatform(ProductGamingPlatform gamingPlatform) {
         this.gamingPlatform = gamingPlatform;
     }
 

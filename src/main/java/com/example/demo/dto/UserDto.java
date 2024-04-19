@@ -1,8 +1,8 @@
 package com.example.demo.dto;
 
 
-import com.example.demo.entities.enums.User_Privilege;
-import com.example.demo.entities.enums.User_Type;
+import com.example.demo.entities.enums.UserPrivilege;
+import com.example.demo.entities.enums.UserType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
@@ -15,7 +15,7 @@ public class UserDto
 {
     private Long id;
     @NotEmpty
-    private String full_name;
+    private String fullName;
     @NotEmpty
     private String username;
     @NotEmpty(message = "Password should not be empty")
@@ -24,25 +24,25 @@ public class UserDto
     @Email
     private String email;
     @NotEmpty
-    private String phone_number;
+    private String phoneNumber;
     @NotEmpty
     private String address;
-    private User_Privilege privilege;
-    private User_Type userRole;
+    private UserPrivilege privilege;
+    private UserType userRole;
 
-    public User_Privilege getPrivilege() {
+    public UserPrivilege getPrivilege() {
         return privilege;
     }
 
-    public void setPrivilege(User_Privilege privilege) {
+    public void setPrivilege(UserPrivilege privilege) {
         this.privilege = privilege;
     }
 
-    public User_Type getUserRole() {
+    public UserType getUserRole() {
         return userRole;
     }
 
-    public void setUserRole(User_Type userRole) {
+    public void setUserRole(UserType userRole) {
         this.userRole = userRole;
     }
 
@@ -54,12 +54,12 @@ public class UserDto
         this.id = id;
     }
 
-    public String getFull_name() {
-        return full_name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFull_name(String full_name) {
-        this.full_name = full_name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getUsername() {
@@ -86,12 +86,12 @@ public class UserDto
         this.email = email;
     }
 
-    public String getPhone_number() {
-        return phone_number;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getAddress() {
