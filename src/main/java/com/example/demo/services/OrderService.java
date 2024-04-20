@@ -21,18 +21,19 @@ public class OrderService {
     }
 
     public void saveOrder(Product product,User user) {
-        Order order;
-        if (findByProduct(product)==null) {
+        Order order = findByProduct(product); // Проверка за вече съществуваща поръчка
+
+        if (order == null) {
+            // Ако поръчката не съществува, създайте нова поръчка
             order = new Order();
             order.setQuantity(1);
             order.setProduct(product);
             order.setUser(user);
+        } else {
+            // Ако поръчката вече съществува, увеличете количеството
+            order.setQuantity(order.getQuantity() + 1);
         }
-        else
-        {
-            order = findByProduct(product);
-            order.setQuantity(order.getQuantity()+1);
-        }
+
 
 
         if(user.getPrivilege().toString()=="Diamond")
@@ -85,6 +86,7 @@ public class OrderService {
             dto.setProductDescription(order.getProduct().getDescription());
             dto.setQuantity(order.getQuantity());
             dto.setUser(user);
+            dto.setProduct(order.getProduct());
             dto.setFinalPrice(order.getFinalPrice());
             dtoOrder.add(dto);
         }

@@ -3,6 +3,8 @@ package com.example.demo.entities;
 import com.example.demo.entities.enums.ProductGamingPlatform;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class Product {
     @Id
@@ -20,9 +22,8 @@ public class Product {
     @Column(nullable = false)
     private Double price;
     private String images;
-    @ManyToOne
-    @JoinColumn(name="order_id")
-    private Order order;
+    @OneToMany(mappedBy = "product",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Order> order;
 
     public long getId() {
         return Id;
@@ -80,11 +81,11 @@ public class Product {
         this.images = images;
     }
 
-    public Order getOrder() {
+    public List<Order> getProducts() {
         return order;
     }
 
-    public void setOrder(Order order) {
+    public void setProducts(List<Order> order) {
         this.order = order;
     }
 }

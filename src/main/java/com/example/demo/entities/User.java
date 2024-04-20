@@ -5,6 +5,8 @@ import com.example.demo.entities.enums.UserType;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Data
 @Getter
@@ -29,6 +31,19 @@ public class User {
     private String address;
     @Enumerated(EnumType.STRING)
     private UserPrivilege privilege;
+
+
+    @OneToMany(mappedBy = "user",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Order> order;
+
+    public List<Order> getOrder() {
+        return order;
+    }
+
+    public void setOrder(List<Order> order) {
+        this.order = order;
+    }
+
     public UserPrivilege getPrivilege() {
         return privilege;
     }

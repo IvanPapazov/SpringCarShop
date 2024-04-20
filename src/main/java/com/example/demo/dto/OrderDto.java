@@ -23,12 +23,20 @@ public class OrderDto {
     private String productName;
     private String productDescription;
     private String productImage;
+
+    private Product product;
     private int quantity;
 
     //private OrderStatus status;
     private Double finalPrice;
 
+    public Product getProduct() {
+        return product;
+    }
 
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 
     public long getId() {
         return Id;

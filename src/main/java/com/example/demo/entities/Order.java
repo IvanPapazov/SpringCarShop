@@ -8,13 +8,12 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private long Id;
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "user_id")
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name="user_id", nullable=false)
     private User user;
-    @OneToOne
-    //@MapsId
-    //@JoinColumn(name = "product_id")
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name="product_id", nullable=false)
     private Product product;
     private int quantity;
     private Double finalPrice;
@@ -22,6 +21,8 @@ public class Order {
     public long getId() {
         return Id;
     }
+
+
 
     public void setId(long id) {
         Id = id;

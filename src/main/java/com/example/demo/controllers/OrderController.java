@@ -41,8 +41,23 @@ public class OrderController {
     @PostMapping("/shoppingCart")
     public String shoppingCart(Model model, Authentication authentication){
         List<OrderDto> orderDtos = orderService.getAllOrders(userService.findByEmail(authentication.getName()));
+        int totalQuantity=0;
+        Double totalPrice=0.0;
+        for (OrderDto product:orderDtos)
+        {
+            totalQuantity=totalQuantity+product.getQuantity();
+            totalPrice=totalPrice+product.getFinalPrice();
+        }
         model.addAttribute("orders", orderDtos);
+        model.addAttribute("totalQuantity", totalQuantity);
+        model.addAttribute("totalPrice", totalPrice);
         return "shoppingCart";
     }
 
+    @PostMapping("/addProductInCart")
+    public String addProductInOrder(@Valid @ModelAttribute("product") Product product, Model model, Authentication authentication){
+
+        orderService.saveOrder(product, userService.findByEmail(authentication.getName()));
+        return "redirect:/shoppingCart";
+    }
 }
