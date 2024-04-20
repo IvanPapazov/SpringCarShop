@@ -33,11 +33,27 @@ import javax.sql.DataSource;
 @EnableWebMvc
 @ComponentScan("com.spring.boot.rocks.*")
 public class WebSecurityConfig implements WebMvcConfigurer {
+    /**
+     * Конфигурира местоположенията на ресурсите за статично съдържание.
+     * Този метод добавя обработчици за ресурси, които насочват към статични файлове
+     * лежащи в класпат-а под директорията /static.
+     *
+     * @param registry Регистърът, към който се добавят обработчиците на ресурси.
+     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/static/");
     }
+    /**
+     * Конфигурира веригата от филтри за сигурност, определяща правила за достъп.
+     * Дефинира правила за авторизация за различни пътища в приложението, както и
+     * конфигурация за формата за вход.
+     *
+     * @param http Обект HttpSecurity за настройка на сигурността.
+     * @return Изградената верига от филтри за сигурност.
+     * @throws Exception при грешка в конфигурацията на сигурността.
+     */
     @Bean
     SecurityFilterChain web(HttpSecurity http) throws Exception {
         http
@@ -54,17 +70,34 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 
         return http.build();
     }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+   /**
+    * Бийн, който предоставя кодер за пароли използвайки BCrypt алгоритъм.
+    * Използва се за хеширане на пароли по безопасен начин.
+    *
+    * @return BCryptPasswordEncoder инстанция.
+    */
+   @Bean
+   public PasswordEncoder passwordEncoder() {
+       return new BCryptPasswordEncoder();
+   }
+   /**
+    * Конфигурира и създава източник на данни базиран на свойства зададени
+    * с префикс 'spring.datasource'.
+    *
+    * @return Инстанция на DataSource според зададените конфигурации.
+    */
    @Bean
    @ConfigurationProperties(prefix = "spring.datasource")
    public DataSource dataSource() {
        return DataSourceBuilder.create().build();
    }
-
+    /**
+     * Създава служба за детайли на потребителите, която използва JDBC за извличане
+     * на данни за потребителите от базата данни.
+     *
+     * @param dataSource Източникът на данни, от който JdbcDaoImpl ще извлича информация за потребителите.
+     * @return JdbcDaoImpl инстанция конфигурирана за извличане на потребителска информация.
+     */
     @Bean
     public UserDetailsService users(DataSource dataSource) {
         JdbcDaoImpl service = new JdbcDaoImpl();

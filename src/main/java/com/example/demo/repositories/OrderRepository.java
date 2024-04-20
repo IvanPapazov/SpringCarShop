@@ -8,5 +8,13 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order,Long> {
+    /**
+     * Търси и връща поръчка свързана с конкретен продукт.
+     * Методът извършва търсене в базата данни за поръчка, която включва специфицирания продукт.
+     * Връща първата намерена поръчка или {@code null}, ако няма поръчка свързана с този продукт.
+     *
+     * @param product Обектът продукт, за който се търси поръчка.
+     * @return Обектът поръчка, който съдържа този продукт, или {@code null} ако такава поръчка не съществува.
+     */
     Order findByProduct(Product product);
 }

@@ -22,7 +22,12 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-
+    /**
+     * Създава и запазва нов потребител в базата данни на основата на предоставените данни от DTO.
+     * Паролата на потребителя се криптира преди запазване за повишена сигурност.
+     *
+     * @param userDto DTO обект, съдържащ информацията за новия потребител.
+     */
     public void saveUser(UserDto userDto) {
         User user = new User();
         user.setName(userDto.getFullName());
@@ -36,7 +41,11 @@ public class UserService {
         user.setPrivilege(UserPrivilege.None);
         userRepository.save(user);
     }
-
+    /**
+     * Редактира съществуващ потребител в базата данни, обновявайки неговата информация с тази от предоставения DTO.
+     *
+     * @param userDto DTO обект с обновените данни за потребителя.
+     */
     public void editUser(UserDto userDto ) {
         User user = userRepository.findByEmail(userDto.getEmail());
         user.setName(userDto.getFullName());
@@ -51,7 +60,11 @@ public class UserService {
     }
 
 
-
+    /**
+     * Извлича всички потребители от базата данни и ги връща като списък от DTOs.
+     *
+     * @return Списък от UserDto, представляващи всички потребители в системата.
+     */
     public List<UserDto> findAllUsers() {
         List<UserDto> dtoUsers=new ArrayList<UserDto>();
         List<User> users=userRepository.findAll();
@@ -70,12 +83,21 @@ public class UserService {
         }
         return dtoUsers;
     }
-
+    /**
+     * Изтрива потребител от базата данни на основата на предоставения електронен адрес.
+     *
+     * @param email Електронният адрес на потребителя, който трябва да бъде изтрит.
+     */
     public void deleteUser(String email)
     {
         userRepository.deleteById(findByEmail(email).getId());
     }
-
+    /**
+     * Намира потребител в базата данни по зададен електронен адрес.
+     *
+     * @param email Електронният адрес на потребителя за търсене.
+     * @return Върнатият потребител, ако съществува; в противен случай {@code null}.
+     */
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }

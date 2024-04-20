@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
 
 </head>
 <body>
@@ -20,34 +21,25 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/frontPage}">Shop</a></li>
-                <li class="nav-item"><a class="nav-link active" aria-current="page"  th:href="@{/products}">Refill & Delete products</a></li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Gaming platform</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">All Products</a></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                        <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                    </ul>
-                </li>
+
             </ul>
         </div>
-        <form class="d-flex">
-            <button class="btn btn-outline-dark" type="submit">
+        <form class="d-flex"  th:action="@{/shoppingCart}" method="post">
+            <button class="btn btn-outline-dark" >
                 <i class="bi-cart-fill me-1"></i>
                 Cart
-                <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                <span class="badge bg-dark text-white ms-1 rounded-pill"th:text="${totalQuantity}"></span>
             </button>
         </form>
     </div>
 </nav>
 <!-- Product section-->
-<section class="py-5">
+<section class="bg-dark py-5">
     <div class="container px-4 px-lg-5 my-5">
         <div class="row gx-4 gx-lg-5 align-items-center">
             <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" th:src="@{'/images/'+${game.images}}" height="600" weight="700" alt="..." /></div>
-            <div class="col-md-6" >
-                <div class="small mb-1">SKU: BST-498</div>
+            <div class="col-md-6" style="color: white;" >
+                <div class="small mb-1" >SKU: BST-498</div>
                 <h1 class="display-5 fw-bolder" th:text="${game.name}"></h1>
                 <div class="fs-5 mb-5">
                     <span th:text="'$'+${game.price}"></span>
@@ -56,10 +48,10 @@
                 <div class="d-flex">
                     <form th:action="@{/addProductInOrder}" method="post">
                         <input type="hidden" name="productId" th:value="${game.id}" />
-                        <button class="btn btn-outline-dark flex-shrink-0" type="submit">
-                        <i class="bi-cart-fill me-1"></i>
-                        Add to cart
-                    </button>
+                        <button class="btn flex-shrink-0" type="submit" style="background-color: white; color: black; border: 1px solid black;">
+                            <i class="bi-cart-fill me-1"></i>
+                            Add to cart
+                        </button>
                     </form>
 
                 </div>
@@ -70,7 +62,7 @@
 <!-- Related items section-->
 <section class="py-5 bg-light">
     <div class="container px-4 px-lg-5 mt-5">
-        <h2 class="fw-bolder mb-4">Other products</h2>
+        <h2 class="fw-bolder mb-4" style="text-align: center;">Other products</h2>
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                 <div th:each="product : ${products}" class="col mb-5">
                     <div class="card h-100">
