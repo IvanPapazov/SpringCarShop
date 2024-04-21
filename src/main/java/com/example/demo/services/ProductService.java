@@ -17,6 +17,10 @@ import java.util.List;
 public class ProductService {
     @Autowired
     private ProductsRepository productsRepository;
+    @Autowired
+    private OrderService orderService;
+
+
     /**
      * Намира продукт по име.
      *
@@ -114,12 +118,13 @@ public class ProductService {
     public void deleteProduct(Long Id,String filePath)
     {
         Product product=findById(Id);
+        orderService.delateOrder(product);
         Path path = Paths.get(filePath,product.getImages());
         try {
             Files.delete(path);
+            productsRepository.deleteById(Id.longValue());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        productsRepository.deleteById(Id.longValue());
     }
 }

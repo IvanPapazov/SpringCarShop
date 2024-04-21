@@ -4,6 +4,7 @@ import com.example.demo.dto.OrderDto;
 import com.example.demo.entities.Order;
 import com.example.demo.entities.Product;
 import com.example.demo.entities.User;
+import com.example.demo.entities.enums.UserPrivilege;
 import com.example.demo.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,35 +47,38 @@ public class OrderService {
             order.setQuantity(order.getQuantity() + 1);
         }
 
-
-        if (user.getPrivilege().toString() == "Diamond") {
-            double price = 0.0;
-            price = order.getQuantity() * order.getProduct().getPrice();
+        double price = order.getQuantity() * order.getProduct().getPrice();
+        if (user.getPrivilege()== UserPrivilege.Diamond) {
             order.setFinalPrice(price * 0.5);
-        } else if (user.getPrivilege().toString() == "Silver") {
-            double price = 0.0;
-            price = order.getQuantity() * order.getProduct().getPrice();
+        } else if (user.getPrivilege()== UserPrivilege.Gold) {
             order.setFinalPrice(price * 0.6);
-        } else if (user.getPrivilege().toString() == "Gold") {
-            double price = 0.0;
-            price = order.getQuantity() * order.getProduct().getPrice();
+        } else if (user.getPrivilege()== UserPrivilege.Silver) {
             order.setFinalPrice(price * 0.7);
-        } else if (user.getPrivilege().toString() == "Bronze") {
-            double price = 0.0;
-            price = order.getQuantity() * order.getProduct().getPrice();
+        } else if (user.getPrivilege()== UserPrivilege.Bronze) {
             order.setFinalPrice(price * 0.8);
-        } else if (user.getPrivilege().toString() == "Iron") {
-            double price = 0.0;
-            price = order.getQuantity() * order.getProduct().getPrice();
+        } else if (user.getPrivilege() == UserPrivilege.Iron) {
             order.setFinalPrice(price * 0.9);
         } else {
-            double price = 0.0;
-            price = order.getQuantity() * order.getProduct().getPrice();
             order.setFinalPrice(price);
         }
         orderRepository.save(order);
     }
-
+    /**
+     * Изтрива поръчката, свързана с посочения продукт, от базата данни.
+     * Този метод първо извлича поръчката, която е свързана с дадения продукт. Ако съществува такава поръчка,
+     * тя се премахва от базата данни. Ако не бъде открита поръчка, методът приключва без да модифицира базата данни.
+     *
+     * @param product Продуктът, свързан с поръчката, която трябва да бъде изтрита. Методът предполага, че всеки продукт
+     *                може да бъде свързан само с една поръчка. Продуктът не трябва да е null и трябва да съдържа
+     *                валидна идентификационна информация, както е необходимо по метода {@code findByProduct}.
+     */
+    public void delateOrder(Product product)
+    {
+        Order order=findByProduct(product);
+        if(order!=null) {
+            orderRepository.delete(order);
+        }
+    }
     /**
      * Връща всички поръчки за даден потребител.
      *

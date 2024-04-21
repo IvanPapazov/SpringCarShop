@@ -7,7 +7,7 @@
            rel="stylesheet"
            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
            crossorigin="anonymous">
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 <!-- Navigation-->
@@ -24,14 +24,16 @@
                 </div>
                 <li class="nav-item"><a class="nav-link" th:href="@{/index}">Logout</a></li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Gaming platform</a>
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Gaming platform
+                    </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">All games</a></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="#!">For PC</a></li>
-                        <li><a class="dropdown-item" href="#!">For PS</a></li>
-                        <li><a class="dropdown-item" href="#!">For xBox</a></li>
-                        <li><a class="dropdown-item" href="#!">For Nintendo</a></li>
+                        <li><a class="dropdown-item" th:href="@{/frontPage}">All games</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" th:href="@{/pc-games}">For PC</a></li>
+                        <li><a class="dropdown-item" th:href="@{/ps-games}">For PS</a></li>
+                        <li><a class="dropdown-item" th:href="@{/xbox-games}">For xBox</a></li>
+                        <li><a class="dropdown-item" th:href="@{/nintendo-games}">For Nintendo</a></li>
                     </ul>
                 </li>
             </ul>
@@ -48,8 +50,24 @@
 <!-- Header-->
 <header class="bg-dark py-5">
     <div class="container px-4 px-lg-5 my-5">
-        <div class="text-center text-white">
+        <div th:if="${gamingPlatform == 'All'}" class="text-center text-white">
             <h1 class="display-4 fw-bolder">All games</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Shop games easily.</p>
+        </div>
+        <div th:if="${gamingPlatform == 'PC'}" class="text-center text-white">
+            <h1 class="display-4 fw-bolder">PC games</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Shop games easily.</p>
+        </div>
+        <div th:if="${gamingPlatform == 'PS'}" class="text-center text-white">
+            <h1 class="display-4 fw-bolder">PS games</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Shop games easily.</p>
+        </div>
+        <div th:if="${gamingPlatform == 'xBox'}" class="text-center text-white">
+            <h1 class="display-4 fw-bolder">xBox games</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Shop games easily.</p>
+        </div>
+        <div th:if="${gamingPlatform == 'Nintendo'}" class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Nintendo games</h1>
             <p class="lead fw-normal text-white-50 mb-0">Shop games easily.</p>
         </div>
     </div>

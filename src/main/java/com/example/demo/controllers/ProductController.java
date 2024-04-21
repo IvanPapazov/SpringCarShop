@@ -4,6 +4,7 @@ import com.example.demo.dto.ProductDto;
 import com.example.demo.dto.UserDto;
 import com.example.demo.entities.Product;
 import com.example.demo.entities.User;
+import com.example.demo.entities.enums.ProductGamingPlatform;
 import com.example.demo.services.OrderService;
 import com.example.demo.services.ProductService;
 import com.example.demo.services.UserService;
@@ -58,6 +59,84 @@ public class ProductController {
         model.addAttribute("role", user.getUserRole().toString());
         List<ProductDto> products = productService.getAllProducts();
         model.addAttribute("products", products);
+
+        model.addAttribute("gamingPlatform", "All");
+        return "frontPage";
+    }
+    /**
+     * Обработва заявки за показване само на компютърни игри на първа страница.
+     * Филтрира списъка с всички продукти, за да включва само тези, които са компютърни игри.
+     *
+     * @param model Обектът на модела за предаване на атрибути към изгледа.
+     * @param authentication Обектът за удостоверяване, който съдържа информация за текущо удостоверения потребител.
+     * @return Името на изгледа за изобразяване, в този случай 'frontPage', с филтрирани продукти.
+     */
+    @GetMapping("/pc-games")
+    public String pcGames(Model model, Authentication authentication) {
+        User user = userService.findByEmail(authentication.getName());
+        int totalQuantity = orderService.totalQuantity(user);
+        model.addAttribute("totalQuantity", totalQuantity);
+        model.addAttribute("role", user.getUserRole().toString());
+        List<ProductDto> products = productService.getAllProducts().stream().filter(p->p.getGamingPlatform()== ProductGamingPlatform.PC).collect(Collectors.toList());
+        model.addAttribute("products", products);
+        model.addAttribute("gamingPlatform", "PC");
+        return "frontPage";
+    }
+    /**
+     * Обработва заявки за показване само на PlayStation игри на първа страница.
+     * Филтрира списъка с всички продукти, за да включва само тези, които са игри за PlayStation.
+     *
+     * @param model Обектът на модела за предаване на атрибути към изгледа.
+     * @param authentication Обектът за удостоверяване, който съдържа информация за текущо удостоверения потребител.
+     * @return Името на изгледа за изобразяване, в този случай 'frontPage', с филтрирани продукти.
+     */
+    @GetMapping("/ps-games")
+    public String psGames(Model model, Authentication authentication) {
+        User user = userService.findByEmail(authentication.getName());
+        int totalQuantity = orderService.totalQuantity(user);
+        model.addAttribute("totalQuantity", totalQuantity);
+        model.addAttribute("role", user.getUserRole().toString());
+        List<ProductDto> products = productService.getAllProducts().stream().filter(p->p.getGamingPlatform()== ProductGamingPlatform.PS).collect(Collectors.toList());
+        model.addAttribute("products", products);
+        model.addAttribute("gamingPlatform", "PS");
+        return "frontPage";
+    }
+    /**
+     * Обработва заявки за показване само на Xbox игри на първа страница.
+     * Филтрира списъка с всички продукти, за да включва само тези, които са Xbox игри.
+     *
+     * @param model Обектът на модела за предаване на атрибути към изгледа.
+     * @param authentication Обектът за удостоверяване, който съдържа информация за текущо удостоверения потребител.
+     * @return Името на изгледа за изобразяване, в този случай 'frontPage', с филтрирани продукти.
+     */
+    @GetMapping("/xbox-games")
+    public String xboxGames(Model model, Authentication authentication) {
+        User user = userService.findByEmail(authentication.getName());
+        int totalQuantity = orderService.totalQuantity(user);
+        model.addAttribute("totalQuantity", totalQuantity);
+        model.addAttribute("role", user.getUserRole().toString());
+        List<ProductDto> products = productService.getAllProducts().stream().filter(p->p.getGamingPlatform()== ProductGamingPlatform.xBox).collect(Collectors.toList());
+        model.addAttribute("products", products);
+        model.addAttribute("gamingPlatform", "xBox");
+        return "frontPage";
+    }
+    /**
+     * Обработва заявки за показване само на Nintendo игри на първа страница.
+     * Филтрира списъка с всички продукти, за да включва само тези, които са игри на Nintendo.
+     *
+     * @param model Обектът на модела за предаване на атрибути към изгледа.
+     * @param authentication Обектът за удостоверяване, който съдържа информация за текущо удостоверения потребител.
+     * @return Името на изгледа за изобразяване, в този случай 'frontPage', с филтрирани продукти.
+     */
+    @GetMapping("/nintendo-games")
+    public String nintendoGames(Model model, Authentication authentication) {
+        User user = userService.findByEmail(authentication.getName());
+        int totalQuantity = orderService.totalQuantity(user);
+        model.addAttribute("totalQuantity", totalQuantity);
+        model.addAttribute("role", user.getUserRole().toString());
+        List<ProductDto> products = productService.getAllProducts().stream().filter(p->p.getGamingPlatform()== ProductGamingPlatform.Nintendo).collect(Collectors.toList());
+        model.addAttribute("products", products);
+        model.addAttribute("gamingPlatform", "Nintendo");
         return "frontPage";
     }
     /**
