@@ -37,7 +37,7 @@ public class ProductService {
      * @return Продуктът, ако е намерен; в противен случай хвърля NoSuchElementException, ако продуктът не съществува.
      */
     public Product findById(Long Id) {
-        return productsRepository.findById(Id.longValue()).get();
+        return productsRepository.findById(Id).get();
     }
     /**
      * Добавя нов продукт в базата данни.
@@ -47,7 +47,7 @@ public class ProductService {
     public void addProduct(ProductDto productDto) {
         Product product = new Product();
         product.setName(productDto.getName());
-        product.setPrice((double)productDto.getPrice());
+        product.setPrice(productDto.getPrice());
         product.setDescription(productDto.getDescription());
         product.setImages(productDto.getImages());
         product.setQuantity(productDto.getQuantity());
@@ -60,7 +60,7 @@ public class ProductService {
      * @return Списък на продуктови DTOs за всички налични продукти.
      */
     public List<ProductDto> getAllProducts() {
-        List<ProductDto> dtoProduct=new ArrayList<ProductDto>();
+        List<ProductDto> dtoProduct=new ArrayList<>();
         List<Product> products=productsRepository.findAll();
         for (Product product : products) {
             ProductDto dto=new ProductDto();
@@ -83,7 +83,7 @@ public class ProductService {
      * @return Списък от ProductDto, който съдържа детайлна информация за всички налични продукти.
      */
     public List<ProductDto> findAllProducts() {
-        List<ProductDto> productsDto=new ArrayList<ProductDto>();
+        List<ProductDto> productsDto=new ArrayList<>();
         List<Product> products=productsRepository.findAll();
         for (Product product : products) {
             ProductDto dto=new ProductDto();
@@ -122,7 +122,7 @@ public class ProductService {
         Path path = Paths.get(filePath,product.getImages());
         try {
             Files.delete(path);
-            productsRepository.deleteById(Id.longValue());
+            productsRepository.deleteById(Id);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

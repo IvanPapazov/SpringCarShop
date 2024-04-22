@@ -2,14 +2,10 @@ package com.example.demo.dto;
 
 import com.example.demo.entities.Product;
 import com.example.demo.entities.User;
-import com.example.demo.entities.enums.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -28,7 +24,7 @@ public class OrderDto {
     private int quantity;
 
     //private OrderStatus status;
-    private Double finalPrice;
+    private double finalPrice;
 
     public Product getProduct() {
         return product;
@@ -86,19 +82,12 @@ public class OrderDto {
         this.quantity = quantity;
     }
 
-    //public OrderStatus getStatus() {
-    //    return status;
-    //}
 
-    //public void setStatus(OrderStatus status) {
-    //    this.status = status;
-    //}
-
-    public Double getFinalPrice() {
+    public double getFinalPrice() {
         return finalPrice;
     }
 
-    public void setFinalPrice(Double finalPrice) {
+    public void setFinalPrice(double finalPrice) {
         this.finalPrice = finalPrice;
     }
 }

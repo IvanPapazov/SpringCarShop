@@ -47,21 +47,31 @@ public class OrderService {
             order.setQuantity(order.getQuantity() + 1);
         }
 
-        double price = order.getQuantity() * order.getProduct().getPrice();
-        if (user.getPrivilege()== UserPrivilege.Diamond) {
-            order.setFinalPrice(price * 0.5);
-        } else if (user.getPrivilege()== UserPrivilege.Gold) {
-            order.setFinalPrice(price * 0.6);
-        } else if (user.getPrivilege()== UserPrivilege.Silver) {
-            order.setFinalPrice(price * 0.7);
-        } else if (user.getPrivilege()== UserPrivilege.Bronze) {
-            order.setFinalPrice(price * 0.8);
-        } else if (user.getPrivilege() == UserPrivilege.Iron) {
-            order.setFinalPrice(price * 0.9);
-        } else {
-            order.setFinalPrice(price);
-        }
+        order.setFinalPrice(calculateFinalPrice(order));
         orderRepository.save(order);
+    }
+
+    /**
+     * Връща крайната цена на поръчката.
+     * @param order Продуктът, на който се смята цената.
+     * @return Цената на продуцта
+     */
+    public double calculateFinalPrice(Order order)
+    {
+        double price = order.getQuantity() * order.getProduct().getPrice();
+        if (order.getUser().getPrivilege()== UserPrivilege.Diamond) {
+            price *= 0.5;
+        } else if (order.getUser().getPrivilege()== UserPrivilege.Gold) {
+            price *= 0.6;
+        } else if (order.getUser().getPrivilege()== UserPrivilege.Silver) {
+            price *= 0.7;
+        } else if (order.getUser().getPrivilege()== UserPrivilege.Bronze) {
+            price *= 0.8;
+        } else if (order.getUser().getPrivilege() == UserPrivilege.Iron) {
+            price *= 0.9;
+        }
+
+        return price;
     }
     /**
      * Изтрива поръчката, свързана с посочения продукт, от базата данни.
@@ -86,7 +96,7 @@ public class OrderService {
      * @return Списък от DTO обекти, съдържащи информация за поръчките на потребителя.
      */
     public List<OrderDto> getAllOrders(User user) {
-        List<OrderDto> dtoOrder = new ArrayList<OrderDto>();
+        List<OrderDto> dtoOrder = new ArrayList<>();
         List<Order> orders = orderRepository.findAll().stream().filter(order -> order.getUser() == user).toList();
         for (Order order : orders) {
             OrderDto dto = new OrderDto();
@@ -97,7 +107,7 @@ public class OrderService {
             dto.setQuantity(order.getQuantity());
             dto.setUser(user);
             dto.setProduct(order.getProduct());
-            dto.setFinalPrice(order.getFinalPrice());
+            dto.setFinalPrice(calculateFinalPrice(order));
             dtoOrder.add(dto);
         }
         return dtoOrder;
@@ -124,7 +134,7 @@ public class OrderService {
      */
     public Double totalPrice(User user) {
         List<OrderDto> orderDtos = this.getAllOrders(user);
-        Double totalPrice = 0.0;
+        double totalPrice = 0.0;
         for (OrderDto product : orderDtos) {
             totalPrice = totalPrice + product.getFinalPrice();
         }

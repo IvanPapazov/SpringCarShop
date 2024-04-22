@@ -20,7 +20,7 @@ public class Product {
     @Column(nullable = false)
     private String description;
     @Column(nullable = false)
-    private Double price;
+    private double price;
     private String images;
     @OneToMany(mappedBy = "product",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Order> order;

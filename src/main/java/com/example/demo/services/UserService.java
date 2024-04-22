@@ -6,9 +6,6 @@ import com.example.demo.entities.enums.UserPrivilege;
 import com.example.demo.entities.enums.UserType;
 import com.example.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -66,7 +63,7 @@ public class UserService {
      * @return Списък от UserDto, представляващи всички потребители в системата.
      */
     public List<UserDto> findAllUsers() {
-        List<UserDto> dtoUsers=new ArrayList<UserDto>();
+        List<UserDto> dtoUsers=new ArrayList<>();
         List<User> users=userRepository.findAll();
         for (User user : users) {
             UserDto dto=new UserDto();
